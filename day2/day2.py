@@ -3,15 +3,6 @@
 import numpy as np
 
 
-def score(opponent, me):
-    if opponent == me:
-        return 3 + me + 1
-    elif (me + 2) % 3 == opponent:
-        return 6 + me + 1
-    else:
-        return me + 1
-
-
 if __name__ == '__main__':
     mapping = {
         'X': 0,
@@ -23,9 +14,13 @@ if __name__ == '__main__':
         'C': 2,
     }
     outcome_mapping = {
-        'X': lambda o: (o + 2) % 3,
-        'Y': lambda o: o + 3,
-        'Z': lambda o: (o + 1) % 3 + 6,
+        0: lambda o: (o + 2) % 3,
+        1: lambda o: o + 3,
+        2: lambda o: (o + 1) % 3 + 6,
+    }
+    score_mapping = {
+        (True, False): lambda m: 3 + m,
+        (False, True): lambda m: 6 + m
     }
     scores_part1 = []
     scores_part2 = []
@@ -34,8 +29,8 @@ if __name__ == '__main__':
             line = line.strip()
             choices = line.split(' ')
             opponent = mapping[choices[0]]
-            me = choices[1]
-            scores_part1.append(score(opponent, mapping[me]))
+            me = mapping[choices[1]]
+            scores_part1.append(score_mapping.get((opponent == me, (me + 2) % 3 == opponent), lambda _: me)(me) + 1)
             scores_part2.append(outcome_mapping[me](opponent) + 1)
     print(sum(scores_part1))
     print(sum(scores_part2))
