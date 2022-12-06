@@ -5,7 +5,7 @@ import numpy as np
 
 if __name__ == '__main__':
     elves = []
-    with open('day1-input.txt') as f:
+    with open('day1-input-sample.txt') as f:
         food = []
         for line in f.readlines():
             line = line.strip()
